@@ -20,6 +20,9 @@
       packages = with pkgs; [
         python313
         python313Packages.pygobject3
+        python313Packages.pygobject-stubs
+        gtk4
+        gtk4-layer-shell
       ];
 
       shellHook = ''
