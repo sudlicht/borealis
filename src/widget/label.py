@@ -33,14 +33,4 @@ class Label(Gtk.Label, Widget):
         if label is not None:
             self.label = label
 
-        self.b_set_label(self.label)
-
-    def b_set_label(self, label: str):
-        """
-        Set the label text that this label is displaying
-
-        Args:
-            label (str): The new text of the label
-        """
-        self.label = label
-        self.set_label(label)
+        self.set_label(self.label)

@@ -1,0 +1,9 @@
+MESA-INTEL: warning: ../src/intel/vulkan/anv_formats.c:802: FINISHME: support YUV colorspace with DRM format modifiers
+MESA-INTEL: warning: ../src/intel/vulkan/anv_formats.c:834: FINISHME: support more multi-planar formats with DRM modifiers
+/nix/store/njpnqszjaj6k38cp4466ygn74n392xy1-python3-3.13.2/lib/python3.13/enum.py:299: Warning: comparing different enum types: PyGtk4LayerShellEdge and PyGtk4LayerShellLayer
+  enum_member = enum_class._value2member_map_[value]
+/nix/store/njpnqszjaj6k38cp4466ygn74n392xy1-python3-3.13.2/lib/python3.13/enum.py:330: Warning: comparing different enum types: PyGtk4LayerShellEdge and PyGtk4LayerShellLayer
+  enum_class._value2member_map_.setdefault(value, enum_member)
+/nix/store/njpnqszjaj6k38cp4466ygn74n392xy1-python3-3.13.2/lib/python3.13/enum.py:331: Warning: comparing different enum types: PyGtk4LayerShellEdge and PyGtk4LayerShellLayer
+  if value not in enum_class._hashable_values_:
+[38;20m[1m(BOREALIS) [2025-04-05 15:55:17,809] DEBUG[0m: Registered callback for interval of length 100 in class MyTimeLabel with name update_time_label[0m

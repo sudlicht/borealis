@@ -1905,3 +1905,123 @@ GameMode ERROR: D-Bus error: Could not call method 'QueryStatus' on 'com.feralin
    297.937 D | Writing account list to file.
    297.941 D | Saved account list to "accounts.json"
    297.942 W | Profile "653dee86d2da41d3a416b3f899a77e38" is no longer in use.
+ 10671.748 W | The Wayland connection broke. Did the Wayland compositor die?
+[Parent 2530, Main Thread] WARNING: ../gdk/wayland/gdkcursor-wayland.c:243 cursor image size (9x16) not an integermultiple of scale (2): 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+(firefox:2530): Gdk-WARNING **: 11:58:47.478: ../gdk/wayland/gdkcursor-wayland.c:243 cursor image size (9x16) not an integermultiple of scale (2)
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:05:26.942: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+Vesktop v1.5.5
+[[38;2;88;101;242marRPC[0m > [38;2;254;231;92mipc[0m] listening at /run/user/1000/discord-ipc-0
+[[38;2;88;101;242marRPC[0m > [38;2;235;69;158mwebsocket[0m] listening on 6463
+[[38;2;88;101;242marRPC[0m > [38;2;237;66;69mprocess[0m] started
+[4546:0405/120612.080938:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4508:0405/120612.126248:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 1 times!
+
+(electron:4384): libnotify-WARNING **: 12:06:28.469: Failed to connect to proxy
+
+(electron:4384): libnotify-WARNING **: 12:06:28.471: Failed to connect to proxy
+
+(electron:4384): libnotify-WARNING **: 12:06:28.475: Failed to connect to proxy
+[4384:0405/120628.479157:ERROR:libnotify_notification.cc(50)] notify_notification_show: domain=1044 code=2 message="GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.Notifications was not provided by any .service files"
+[4508:0405/120643.556304:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 2 times!
+[4508:0405/120643.559874:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 3 times!
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:07:44.801: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[4546:0405/120848.621132:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/120856.859060:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/120916.244407:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/120916.269555:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:12:28.005: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:27:41.623: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:39:44.013: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:44:13.253: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:46:38.774: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 12:53:15.339: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+Error: Failed to open Wayland display, fallback to X11. WAYLAND_DISPLAY='wayland-1' DISPLAY=':0'
+Error: Failed to open Wayland display, fallback to X11. WAYLAND_DISPLAY='wayland-1' DISPLAY=':0'
+[4384:0405/130440.597755:ERROR:atom_cache.cc(229)] Add chromium/from-privileged to kAtomsToCache
+Error: Failed to open Wayland display, fallback to X11. WAYLAND_DISPLAY='wayland-1' DISPLAY=':0'
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 13:07:50.961: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[4546:0405/131454.925430:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/131507.253886:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 13:31:03.552: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 13:37:18.771: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 13:38:35.444: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[4546:0405/134755.540526:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 13:52:32.477: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 14:39:12.616: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[4546:0405/144001.439635:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/151317.264527:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 15:26:18.102: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+Error: Failed to open Wayland display, fallback to X11. WAYLAND_DISPLAY='wayland-1' DISPLAY=':0'
+[4546:0405/154849.012305:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/154908.976968:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/154918.479606:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[Parent 2530, Main Thread] WARNING: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+: 'glib warning', file /build/firefox-136.0.3/toolkit/xre/nsSigHandlers.cpp:201
+
+** (firefox:2530): WARNING **: 15:51:33.044: Failed to enumerate devices of org.freedesktop.UPower: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
+
+[4546:0405/155941.796120:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/160049.946893:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/160248.020678:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1
+[4546:0405/160632.611246:ERROR:ffmpeg_common.cc(970)] Unsupported pixel format: -1

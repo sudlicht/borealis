@@ -28,6 +28,7 @@
 
         shellHook = ''
           export LD_PRELOAD="${pkgs.gtk4-layer-shell}/lib/libgtk4-layer-shell.so"
+	  export GTK_DEBUG=interactive
           echo -e '\033[0;31mStarted Borealis development environment.'
           echo -e '\033[0;37mNote: VS-Code will not work properly in this environment (try vscode devShell).'
           echo -e 'Please use this environment in a wayland terminal.'

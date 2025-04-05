@@ -50,24 +50,13 @@ class Window(Gtk.Window, Widget):
         self.b_set_layer(self.layer)
         self.b_set_anchor(self.anchor)
         self.b_set_auto_exclusive_zone(self.auto_exclusive_zone)
-        self.b_set_child(self.child)
+        self.set_child(self.child)
 
         # Present our window
         self.present()
 
     # Setters related to fields in Window that
     # need setting.
-
-    def b_set_child(self, child: Widget):
-        """
-        Set's the child of this window to a new
-        Widget node.
-
-        Args:
-            child (Widget): The new child of this window
-        """
-        self.child = child
-        self.set_child(child)
 
     def b_set_layer(self, layer: LayerShellLayer):
         """
@@ -77,7 +66,6 @@ class Window(Gtk.Window, Widget):
         Args:
             layer (Gtk4LayerShell.Layer): The new layer to be on.
         """
-        self.layer = layer
         Gtk4LayerShell.set_layer(self, layer.value)
 
     def b_set_anchor(self, edge: LayerShellEdge):
@@ -88,7 +76,6 @@ class Window(Gtk.Window, Widget):
         Args:
             edge (LayerShellEdge): The new anchor
         """
-        self.edge = edge
         Gtk4LayerShell.set_anchor(self, edge.value, True)
 
     def b_set_auto_exclusive_zone(self, auto_exclusive_zone: bool):
@@ -99,11 +86,7 @@ class Window(Gtk.Window, Widget):
         Args:
             auto_exclusive_zone (bool): True if there should be, else no.
         """
-        self.auto_exclusive_zone = auto_exclusive_zone
-
         if auto_exclusive_zone is True:
             Gtk4LayerShell.auto_exclusive_zone_enable(self)
         else:
             Gtk4LayerShell.set_exclusive_zone(self, auto_exclusive_zone)
-
-    ####

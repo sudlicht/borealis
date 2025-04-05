@@ -1,37 +1,33 @@
+from typing import Annotated
 from borealis import Borealis
+from widget.annotate import IntervalCallback
 from widget.window import Window
 from widget.label import Label
-from widget.button import Button
+import datetime
 
 
-def clicked(self: "MyEpicButton", *args, **kwargs):
-    print(self.get_child())
-    self.b_set_child(Label(label="Bye!", css_name="labelymclabelface"))
+def get_time():
+    return str(datetime.datetime.now().strftime("%H:%M:%S - %d/%m/%Y"))
 
 
-class MyEpicButton(Button):
-    on_clicked = clicked
+def update_time_label(mylabel: "MyTimeLabel"):
+    mylabel.set_label(get_time())
 
 
-class MyLabel(Label):
-    label = "Hi!"
+class MyTimeLabel(Label):
+    label = get_time()
+    css_classes = ["my-label-css"]
+    update_time: Annotated[IntervalCallback, 100] = update_time_label
 
 
 class BarWindow(Window):
-    child = MyEpicButton(child=MyLabel())
-    pass
+    child = MyTimeLabel()
 
 
-# Create our borealis application
 class MyBar(Borealis):
     application_id = "com.example.my_bar"
     css_file = "style.css"
-    # Root window does not need to be initialised (set fields there)
     root = BarWindow
-    pass
-
-
-class BwaTest:
     pass
 
 
