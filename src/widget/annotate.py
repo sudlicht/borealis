@@ -1,6 +1,3 @@
-from typing import Annotated
-
-
 class SignalCallback:
     """
     Type annotation for signal callbacks

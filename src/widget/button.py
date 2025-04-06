@@ -1,7 +1,6 @@
 from typing import Optional
 from gi.repository import Gtk
 from widget.widget import Widget
-from copy import deepcopy
 
 
 class Button(Gtk.Button, Widget):

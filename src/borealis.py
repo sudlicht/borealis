@@ -1,6 +1,5 @@
 from typing import Optional
 from borealis_logging import BorealisFormatter
-from ext.hyprland import HyprlandService
 import gi
 from service.base_service import BaseService
 from service.service_annotate import ServiceAnnotation

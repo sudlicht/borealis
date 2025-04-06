@@ -1,7 +1,4 @@
-import asyncio
 import logging
-from queue import Queue
-import threading
 from typing import Optional
 from service.service_annotate import ServiceAnnotation
 from service.service_signal import ServiceSignal

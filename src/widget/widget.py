@@ -1,11 +1,9 @@
 from collections.abc import Callable, Sequence
-import inspect
-from typing import Generic, Optional, TypeVar, get_type_hints
+from typing import Optional, get_type_hints
 import typing
 from gi.repository import Gtk, GLib, GObject
 
 import logging
-from service.service_annotate import ServiceAnnotation
 from widget.annotate import IntervalCallback, OneshotCallback, SignalCallback
 from widget.copy_widget import CopyWidget
 

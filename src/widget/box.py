@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from gi.repository import Gtk
 from widget.b_orientable import B_Orientable
 from widget.widget import Widget

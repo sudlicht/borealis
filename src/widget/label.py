@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from gi.repository import Gtk
 from widget.widget import Widget
 from typing import Optional
