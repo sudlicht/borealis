@@ -82,6 +82,7 @@ class Borealis:
         Create a new instance of Borealis.
         """
         self._service_map = {}
+        self._service_prefixes_map = {}
 
         # Create underlying Gtk Application with the passed in application id.
         try:
@@ -119,18 +120,49 @@ class Borealis:
         for service in self.services:
             annotation = service.get_annotation()
 
-            if annotation is None:
-                logger.warning(
-                    f"Service {service.__class__.__name__} Has no annotation! Widget's wont be able to use this service"
-                )
-
-            else:
-                self._service_map[annotation] = service
-                self._service_prefixes_map[annotation.get_prefix()] = service
+            self._service_map[annotation.__class__] = service
+            self._service_prefixes_map[annotation.get_prefix()] = service
 
         # Start each service
         for service in self.services:
             threading.Thread(target=service.start_service).start()
+
+    def get_services_prefix_list(self) -> list[str]:
+        """
+        Returns a list of the prefixes of services registered
+        in this borealis instance
+
+        Returns:
+            list[str]: A list of the string prefixes from the annotations
+                of the services
+        """
+
+        return list(self._service_prefixes_map.keys())
+
+    def get_service_from_prefix(self, prefix: str) -> Optional[BaseService]:
+        """
+        This will return the service from it's string prefix
+
+        Args:
+            prefix (str): The prefix of the service
+
+        Returns:
+            Optional[BaseService]: The service.
+        """
+        return self._service_prefixes_map.get(prefix, None)
+
+    def get_service(self, service: ServiceAnnotation) -> Optional[BaseService]:
+        """
+        This will return a service provided it's service annotation
+
+        Args:
+            service (ServiceAnnotation): The annotation of the service
+
+        Returns:
+            Optional[BaseService]: The service corresponding to this annotation
+        """
+
+        return self._service_map.get(service, None)
 
     def _activate(self):
         """

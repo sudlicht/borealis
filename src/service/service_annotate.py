@@ -29,6 +29,8 @@ class ServiceAnnotation:
 
     Note that "interval", "oneshot" is already used as a prefix for intervals
     and "on" is taken by Gtk4 signals.
+
+    Do not use '_' as a separator, Use '-' only.
     """
 
     def __init__(self):
@@ -48,7 +50,9 @@ class ServiceAnnotation:
         try:
             logger.debug(f"Initialising service annotation with prefix {self.prefix}")
         except AttributeError:
-            logger.error(f"Service {self.__class__.__name__} is missing prefix")
+            logger.error(
+                f"Service {self.__class__.__name__} is missing its prefix, Please insure it has one!"
+            )
             exit(1)
 
     def get_prefix(self):

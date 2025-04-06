@@ -1,3 +1,4 @@
+import logging
 import threading
 import time
 from service.base_service import BaseService, ServiceSignal
@@ -5,9 +6,11 @@ import os
 
 from service.service_annotate import ServiceAnnotation
 
+logger = logging.getLogger(__name__)
+
 
 class HyprlandCallback(ServiceAnnotation):
-    prefix = "hyprland_on"
+    prefix = "hyprland-on"
 
 
 class HyprlandService(BaseService):
@@ -47,5 +50,10 @@ class HyprlandService(BaseService):
 
         # Open async connection to hyprland socket
         while True:
-            time.sleep(10)
-            self.emit_signal(ServiceSignal(signal="hyprland_test"))
+            time.sleep(1)
+            self.emit_signal(ServiceSignal("hyprland-test", 5))
+
+    def get_signal_arg_types(self, signal: str) -> tuple[any]:
+        match signal:
+            case "hyprland-test":
+                return (int,)

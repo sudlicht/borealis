@@ -1,5 +1,7 @@
 import logging
 
+from service.service_annotate import ServiceAnnotation
+
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
@@ -32,17 +34,25 @@ def hi(self, *args, **kwargs):
     self.get_child().set_label("Clickbkbe")
 
 
-def changed_workspace_hyprland(self, *args):
-    print(args, self)
+def method_one(self, *args):
+    print("Method one!", args)
+
+
+def method_two(self, *args):
+    print("Method two!", args)
+
+
+def method_three(self, *args):
+    print("Method three!", args)
 
 
 class DisconnectButtonTest(Button):
     child = Label(label="Click me!")
-    disconnect_tester: Annotated[SignalCallback, "clicked"] = test_disconnect
-    test_interval: Annotated[IntervalCallback, 1000] = hi
-    changed_workspace: Annotated[HyprlandCallback, "workspacev2"] = (
-        changed_workspace_hyprland
-    )
+    on_clicked = test_disconnect
+    interval_1000 = hi
+
+    # hyprland-on service, with hyprland-test signal.
+    my_method_two: Annotated[HyprlandCallback, "hyprland-test"] = method_two
 
 
 class TestWindow(Window):

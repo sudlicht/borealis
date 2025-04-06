@@ -2,9 +2,10 @@ from collections.abc import Callable, Sequence
 import inspect
 from typing import Generic, Optional, TypeVar, get_type_hints
 import typing
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, GObject
 
 import logging
+from service.service_annotate import ServiceAnnotation
 from widget.annotate import IntervalCallback, OneshotCallback, SignalCallback
 from widget.copy_widget import CopyWidget
 
@@ -34,7 +35,7 @@ class Widget(Gtk.Widget, CopyWidget):
 
     auto_unmap: bool = True
     """
-    This will automatically remove all interval and oneshot
+    This will automatically remove all interval, services and oneshot
     handlers on the unmap event
     """
 
@@ -42,6 +43,12 @@ class Widget(Gtk.Widget, CopyWidget):
     """
     Flag that determines if on the map event the service handlers
     should be setup for this widget
+    """
+
+    _attached_services: set
+    """
+    A list of services this widget is attached to.
+    Used for keeping track for unmapping this widget from them later.
     """
 
     def __init__(self, css_classes: Optional[Sequence[str]] = None, **kwargs):
@@ -55,6 +62,7 @@ class Widget(Gtk.Widget, CopyWidget):
         """
         Gtk.Widget.__init__(self)
         self._intervals = []
+        self._attached_services = set()
 
         # Set instance fields based on __init__ args.
         if css_classes is not None:
@@ -71,22 +79,25 @@ class Widget(Gtk.Widget, CopyWidget):
             list(self.__class__.__dict__.items()) + list(kwargs.items())
         )
 
-        self._process_annotations()
+        self._process_base_annotations()
 
         # Auto unmapping of interval handlers when widget
         # goes out of tree
         if self.auto_unmap:
             self.connect("unmap", self._self_decorator(self._unmap))
 
+        # Mapping for services setup for this widget
         if self.services_map:
-            self.connect("map", self._self_decorator(self._map_services_setup))
+            self.connect(
+                "map",
+                lambda _: self._map_services_setup(
+                    list(self.__class__.__dict__.items()) + list(kwargs.items())
+                ),
+            )
 
         # Allow passing kwargs down through widget for use by the user.
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-        # Store kwargs for later processing by services
-        self._kwargs = kwargs
 
     def _add_base_handlers(
         self, handlers: list[tuple[str, Callable | Sequence[Callable]]]
@@ -111,10 +122,10 @@ class Widget(Gtk.Widget, CopyWidget):
             if key.startswith("interval_"):
                 self._add_interval_handler(key, value)
 
-    def _process_annotations(self):
+    def _process_base_annotations(self):
         """
         Processes the type annotations of this class,
-        Adding handlers when necessary
+        Adding handlers for base non-service handlers when necessary
         """
 
         # Process annotations for type annotation defined handlers
@@ -123,26 +134,23 @@ class Widget(Gtk.Widget, CopyWidget):
 
                 # Get callback from this value
                 callback = self.__class__.__dict__[key]
+                origin = value.__origin__
 
                 # Handle signal callbacks (Gtk4)
-                if value.__origin__ == SignalCallback:
+                if origin == SignalCallback:
                     for signal_type in value.__metadata__:
-                        self._add_signal_handlers(
-                            [("on_" + str(signal_type), callback)]
-                        )
+                        self._add_signal_handler("on_" + str(signal_type), callback)
 
                 # Handle interval callbacks
-                if value.__origin__ == IntervalCallback:
+                if origin == IntervalCallback:
                     for interval in value.__metadata__:
-                        self._add_interval_handlers(
-                            [("interval_" + str(interval), callback)]
+                        self._add_interval_handler(
+                            "interval_" + str(interval), callback
                         )
 
-                if value.__origin__ == OneshotCallback:
+                if origin == OneshotCallback:
                     for interval in value.__metadata__:
-                        self._add_oneshot_handlers(
-                            [("oneshot_" + str(interval), callback)]
-                        )
+                        self._add_oneshot_handler("oneshot_" + str(interval), callback)
 
     def _add_oneshot_handler(
         self, key_oneshot: str, handlers: Callable | Sequence[Callable]
@@ -168,10 +176,10 @@ class Widget(Gtk.Widget, CopyWidget):
 
         # Attempt to convert the remaining bit to the interval
         try:
-            interval = int(key_oneshot.lstrip("oneshot_"))
+            interval = int(key_oneshot.removeprefix("oneshot_"))
         except ValueError:
             logging.warning(
-                f"Invalid oneshot interval value in class {self.__class__.__name__} for oneshot handler {key_oneshot}"
+                f"Invalid oneshot interval value in {self.__class__.__name__} for oneshot handler {key_oneshot}"
             )
             return
 
@@ -188,7 +196,7 @@ class Widget(Gtk.Widget, CopyWidget):
                     )
         else:
             logging.warning(
-                f"Found {key_oneshot} field in class, But it doesn't correspond to a proper oneshot handler?"
+                f"Found {key_oneshot} field in {self.__class__.__name__}, But it's value is not a list of or a single callable oneshot handler?"
             )
 
     def _add_interval_handler(
@@ -205,7 +213,7 @@ class Widget(Gtk.Widget, CopyWidget):
 
         # Attempt to convert the remaining bit to the interval
         try:
-            interval = int(key_interval.lstrip("interval_"))
+            interval = int(key_interval.removeprefix("interval_"))
         except ValueError:
             logging.warning(
                 f"Invalid interval value {key_interval} in class {self.__class__.__name__} for interval handler {key_interval}"
@@ -223,7 +231,7 @@ class Widget(Gtk.Widget, CopyWidget):
                     self._register_interval_handler(interval, single_callback)
         else:
             logging.warning(
-                f"Found {key_interval} field in class, But it doesn't correspond to a proper interval handler?"
+                f"Found {key_interval} field in {self.__class__.__name__}, But it's value is not a list of or a single callable interval handler?"
             )
 
     def _add_signal_handler(self, signal: str, handlers: Callable | Sequence[Callable]):
@@ -237,7 +245,7 @@ class Widget(Gtk.Widget, CopyWidget):
         """
 
         # Kebab-caseify
-        signal = signal.lstrip("on_").replace("_", "-")
+        signal = signal.removeprefix("on_").replace("_", "-")
 
         # Single callback case or list of
         if callable(handlers):
@@ -250,7 +258,7 @@ class Widget(Gtk.Widget, CopyWidget):
                     self._register_self_signal_handler(signal, single_callback)
         else:
             logging.warning(
-                f"Found on_{signal} field in class, But it doesn't correspond to a proper signal handler?"
+                f"Found on_{signal} field in {self.__class__.__name__}, But it's value is not a list of or a single callable signal handler?"
             )
 
     def _self_decorator(self, callback: Callable) -> Callable:
@@ -281,16 +289,11 @@ class Widget(Gtk.Widget, CopyWidget):
             callback (Callable): The callback for the signal
         """
 
-        try:
-            self.connect(signal, self._self_decorator(callback))
-        except TypeError:
-            logging.error(
-                f"No signal of type {signal} exists for class {self.__class__.__name__} with handler name {callback.__name__}"
-            )
-        else:
-            logging.debug(
-                f"Registered callback for signal of type {signal} in class {self.__class__.__name__} with name {callback.__name__}"
-            )
+        self.connect(signal, self._self_decorator(callback))
+
+        logging.debug(
+            f"Registered callback for signal of type {signal} in class {self.__class__.__name__} with name {callback.__name__}"
+        )
 
     def _register_interval_handler(self, interval: int, callback: Callable):
         """
@@ -338,6 +341,15 @@ class Widget(Gtk.Widget, CopyWidget):
         for interval in self._intervals:
             GLib.source_remove(interval)
 
+    def _destroy_services(self):
+        """
+        This will destroy all of the service emitters
+        related to this widget
+        """
+
+        for service in self._attached_services:
+            service.detach_widget(self)
+
     def _unmap(self, *args, **kwargs):
         """
         This function will remove all this
@@ -346,11 +358,155 @@ class Widget(Gtk.Widget, CopyWidget):
 
         logging.debug(f"Automatically unmapping for widget {self.__class__.__name__}")
 
+        self._destroy_services()
         self._destroy_intervals()
 
-    def _map_services_setup(self, *args, **kwargs):
+    def _map_services_setup(
+        self, handlers: list[tuple[str, Callable | Sequence[Callable]]]
+    ):
         """
         Set's up the service handlers for this widget
-        Since we require communicating with the borealis instance
-        this belongs with.
+
+        Args:
+            handlers (list[tuple[str, Callable  |  Sequence[Callable]]]): The handlers to add
         """
+        self._add_service_handlers(handlers)
+        self._process_service_annotations()
+
+    def _add_service_handlers(
+        self, handlers: list[tuple[str, Callable | Sequence[Callable]]]
+    ):
+        """
+        This will add all the handlers for all services in the provided list
+        to this widget, processing all the ones that match a service.
+
+        Args:
+            handlers (list[tuple[str, Callable  |  Sequence[Callable]]]): The handlers to add
+        """
+        # The borealis instance
+        borealis = self.b_get_borealis()
+
+        # Get all the service prefixes
+        service_prefixes = borealis.get_services_prefix_list()
+
+        # Process all handlers
+        for key, value in handlers:
+
+            # Convert key from snake to kebab case
+            kebab_key = key.replace("_", "-")
+
+            # Find a match
+            for service in service_prefixes:
+                if not kebab_key.startswith(service):
+                    continue
+
+                # We found a match so now process it
+
+                # Signal that we are attaching to
+                key_signal = kebab_key.removeprefix(service + "-")
+
+                # Get it's corresponding service
+                service = borealis.get_service_from_prefix(service)
+
+                # Now add all of the callbacks
+                if callable(value):
+                    self._register_service_callback(service, key_signal, value)
+                elif isinstance(value, list):
+
+                    # Register all sub-callbacks
+                    for single_callback in value:
+                        if callable(single_callback):
+                            self._register_service_callback(
+                                service, key_signal, single_callback
+                            )
+                else:
+                    logging.warning(
+                        f"Found {key} field in {self.__class__.__name__}, But it's value is not a list of or a single callable service handler?"
+                    )
+
+    def _process_service_annotations(self):
+        """
+        Processes the type annotations of this class,
+        Adding handlers for service handlers when necessary
+
+        This should only be ran when the borealis
+        instance of this widget is clear.
+        """
+
+        # The borealis instance
+        borealis = self.b_get_borealis()
+
+        # Process annotations for type annotation defined handlers
+        for key, value in get_type_hints(self.__class__, include_extras=True).items():
+            if isinstance(value, typing._AnnotatedAlias):
+
+                # Get callback from this value
+                callback = self.__class__.__dict__[key]
+                origin = value.__origin__
+
+                # Quick check to get rid of all the non-service ones
+                if (
+                    origin == SignalCallback
+                    or origin == IntervalCallback
+                    or origin == OneshotCallback
+                ):
+                    continue
+
+                service: Optional[any] = borealis.get_service(origin)
+
+                # Warn user about a non-existant service
+                if service is None:
+                    logging.warning(
+                        f"No service exists for annotation {origin.__name__} when attempting to add services for {self.__class__.__name__}"
+                    )
+                    continue
+
+                # Register the callback/signal
+                for signal in value.__metadata__:
+                    self._register_service_callback(service, signal, callback)
+
+    def _register_service_callback(self, service, signal: str, callback: Callable):
+        """
+        Registers a handler from this widget under a certain signal
+        to a service
+
+        Args:
+            service (BaseService): The service to attach this widget to
+            signal (str): The name of the signal from the service
+            callback (Callable): The handler of this signal
+        """
+        # Validation/getting args from this service.
+        signal_args = service.get_signal_arg_types(signal)
+
+        # Validation on signal existing.
+        if signal_args is None:
+            logging.warning(
+                f"No signal exists under name {signal} for service "
+                f"{service.__class__.__name__} when attempting to register "
+                f"callback for {self.__class__.__name__} with callback {callback.__name__}"
+            )
+            return
+
+        # All service signals start with their prefix for uniqueness.
+        service_prefix = service.get_annotation().get_prefix()
+
+        # Add signal handler (or make signal if it doesnt exist)
+        try:
+            self._register_self_signal_handler(service_prefix + signal, callback)
+        except TypeError:
+            # Create signal on our widget if it doesn't have the signal
+            GObject.signal_new(
+                service_prefix + signal,
+                self,
+                GObject.SignalFlags.RUN_FIRST,
+                None,  # Return type of signal
+                signal_args,
+            )
+
+            self._register_self_signal_handler(service_prefix + signal, callback)
+
+        # Register service to emit signals through this widget
+        if service not in self._attached_services:
+            self._attached_services.add(service)
+
+        service.attach_widget(self, signal)

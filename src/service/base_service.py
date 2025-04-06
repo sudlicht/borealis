@@ -24,7 +24,7 @@ class BaseService:
     to use it's signals
     """
 
-    _attached_widgets: list[Widget]
+    _attached_widgets: dict[Widget, list[str]]
     """
     The widgets attached to this service that will recieve
     the signals from this service
@@ -41,7 +41,18 @@ class BaseService:
         if annotation is not None:
             self.annotation = annotation
 
-        self._attached_widgets = []
+        # Make sure we have annotations! We need the prefix for our signals
+        try:
+            logger.debug(
+                f"Initialising new service {self.__class__.__name__} with annotation {self.annotation.__class__.__name__}"
+            )
+        except AttributeError:
+            logger.error(
+                f"Service {self.__class__.__name__} is missing its annotation! Please ensure it has one."
+            )
+            exit(1)
+
+        self._attached_widgets = {}
 
     def start_service(self):
         """
@@ -73,15 +84,53 @@ class BaseService:
         """
 
         # Emit signal for all the widgets
-        for widget in self._attached_widgets:
-            widget.emit(signal.signal, *signal.args)
+        for widget, signals in self._attached_widgets.items():
+            if signal.signal in signals:
+                widget.emit(self.annotation.get_prefix() + signal.signal, *signal.args)
 
     def get_annotation(self):
         """
         Returns the annotation of this service
         """
 
+        return self.annotation
+
+    def attach_widget(self, widget: Widget, signal: str):
+        """
+        Adds a widget to this service, enabling for it
+        to recieve this specific signal from this service
+
+        Args:
+            widget (Widget): The widget to add to this service
+        """
+
         try:
-            return self.annotation
-        except AttributeError:
-            return None
+            self._attached_widgets[widget].append(signal)
+        except KeyError:
+            self._attached_widgets[widget] = [signal]
+
+    def detach_widget(self, widget: Widget):
+        """
+        Remove's this widget from this service
+        thus stopping the widget from recieving signals from this service.
+
+        Args:
+            widget (Widget): The widget to detach
+        """
+
+        self._attached_widgets.pop(widget, None)
+
+    def get_signal_arg_types(self, signal: str) -> tuple[any] | None:
+        """
+        This function should return the signal's arg types
+        for registering a signal under this service
+
+        This is also used for validation of if a signal exists for widgets!
+
+        Args:
+            signal (str): The signal
+
+        Returns:
+            tuple[any]: A tuple of the arguments to this signal's handlers
+        """
+        pass
