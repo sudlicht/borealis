@@ -1,6 +1,6 @@
 from typing import Optional
 from gi.repository import Gtk
-from widget.widget import Widget
+from widget import Widget
 
 
 class Button(Gtk.Button, Widget):

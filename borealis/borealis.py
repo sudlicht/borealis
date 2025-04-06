@@ -1,8 +1,7 @@
 from typing import Optional
 from borealis_logging import BorealisFormatter
 import gi
-from service.base_service import BaseService
-from service.service_annotate import ServiceAnnotation
+from service import BaseService, ServiceAnnotation
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gtk4LayerShell", "1.0")

@@ -1,7 +1,6 @@
 from typing import Optional
 from gi.repository import Gtk
-from widget.widget import Widget
-from widget.layer_shell import LayerShellLayer, LayerShellEdge
+from widget import Widget, LayerShellLayer, LayerShellEdge
 from gi.repository import Gtk4LayerShell
 
 

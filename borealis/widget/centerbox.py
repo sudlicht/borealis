@@ -1,7 +1,6 @@
 from gi.repository import Gtk
 from widget.b_orientable import B_Orientable
-from widget.widget import Widget
-from widget.enums import Orientation
+from widget import Widget, Orientation
 from typing import Optional
 
 

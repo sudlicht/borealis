@@ -1,5 +1,5 @@
 from gi.repository import Gtk
-from widget.enums import Orientation
+from widget import Orientation
 
 
 class B_Orientable(Gtk.Widget, Gtk.Orientable):

@@ -1,8 +1,7 @@
 from typing import Optional
 from gi.repository import Gtk
 from widget.b_orientable import B_Orientable
-from widget.enums import Orientation
-from widget.widget import Widget
+from widget import Orientation, Widget
 
 
 class Separator(Gtk.Separator, Widget, B_Orientable):
