@@ -1,8 +1,8 @@
 import logging
 from typing import Optional
-from service.service_annotate import ServiceAnnotation
-from service.service_signal import ServiceSignal
-from widget.widget import Widget
+from borealis.service.service_annotate import ServiceAnnotation
+from borealis.service.service_signal import ServiceSignal
+from borealis.widget.widget import Widget
 from gi.repository import GLib
 
 

@@ -1,6 +1,7 @@
 from typing import Optional
 from gi.repository import Gtk
-from widget import Widget, LayerShellLayer, LayerShellEdge
+from borealis.widget.widget import Widget
+from borealis.widget.layer_shell import LayerShellLayer, LayerShellEdge
 from gi.repository import Gtk4LayerShell
 
 

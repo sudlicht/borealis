@@ -1,15 +1,6 @@
 import logging
 
-from borealis_logging import BorealisFormatter
-
 logger = logging.getLogger(__name__)
-
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-
-# Use custom formatter which has coloured outputs
-stream_handler.setFormatter(BorealisFormatter())
-logger.addHandler(stream_handler)
 
 
 class ServiceAnnotation:

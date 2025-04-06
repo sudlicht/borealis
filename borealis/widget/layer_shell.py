@@ -50,7 +50,7 @@ class LayerShellEdge(Enum):
     The top edge of the screen.
     """
 
-    BOTTOM = Gtk4LayerShell.Layer.BOTTOM
+    BOTTOM = Gtk4LayerShell.Edge.BOTTOM
     """
     The bottom edge of the screen.
     """

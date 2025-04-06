@@ -1,5 +1,5 @@
 from gi.repository import Gtk
-from widget.widget import Widget
+from borealis.widget.widget import Widget
 from typing import Optional
 
 

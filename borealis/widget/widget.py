@@ -4,8 +4,8 @@ import typing
 from gi.repository import Gtk, GLib, GObject
 
 import logging
-from widget import IntervalCallback, OneshotCallback, SignalCallback
-from widget.copy_widget import CopyWidget
+from borealis.widget.annotate import IntervalCallback, OneshotCallback, SignalCallback
+from borealis.widget.copy_widget import CopyWidget
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,7 @@
 from gi.repository import Gtk
-from widget.b_orientable import B_Orientable
-from widget import Widget, Orientation
+from borealis.widget.b_orientable import B_Orientable
+from borealis.widget.widget import Widget
+from borealis.widget.enums import Orientation
 from typing import Optional
 
 

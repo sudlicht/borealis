@@ -1,5 +1,5 @@
 import time
-from service import BaseService, ServiceSignal, ServiceAnnotation
+from borealis.service import BaseService, ServiceSignal, ServiceAnnotation
 import os
 
 

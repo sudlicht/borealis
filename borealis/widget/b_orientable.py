@@ -1,11 +1,13 @@
-from gi.repository import Gtk
-from widget import Orientation
+from borealis.widget.enums import Orientation
 
 
-class B_Orientable(Gtk.Widget, Gtk.Orientable):
+class B_Orientable:
     """
-    Orientable from GTK but with support for
-    borealis Orientation
+    An extra class which should be added to borealis abstracted
+    versions of classes which implement Orientable from Gtk.
+
+    Adds b_ prefixed versions of orientable methods which support
+    borealis orientation.
     """
 
     orientation: Orientation = Orientation.HORIZONTAL

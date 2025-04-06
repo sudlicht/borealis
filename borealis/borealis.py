@@ -1,25 +1,17 @@
 from typing import Optional
-from borealis_logging import BorealisFormatter
 import gi
-from service import BaseService, ServiceAnnotation
+from borealis.service import BaseService, ServiceAnnotation
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gtk4LayerShell", "1.0")
 from gi.repository import Gtk, Gdk
-from widget.window import Window
+from borealis.widget.window import Window
 
 import threading
 import logging
 
 # Setup library level logging for the end-user
-logger = logging.getLogger()
-
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-
-# Use custom formatter which has coloured outputs
-stream_handler.setFormatter(BorealisFormatter())
-logger.addHandler(stream_handler)
+logger = logging.getLogger(__name__)
 
 
 class Borealis:
