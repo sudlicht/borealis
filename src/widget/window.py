@@ -1,3 +1,4 @@
+from typing import Optional
 from gi.repository import Gtk
 from widget.widget import Widget
 from widget.layer_shell import LayerShellLayer, LayerShellEdge
@@ -7,6 +8,11 @@ from gi.repository import Gtk4LayerShell
 class Window(Gtk.Window, Widget):
     """
     A toplevel window which can contain other widgets.
+    """
+
+    layer_shell: bool = True
+    """
+    Whether or not to use Gtk Layer Shell.
     """
 
     layer: LayerShellLayer = LayerShellLayer.TOP
@@ -46,17 +52,16 @@ class Window(Gtk.Window, Widget):
         Widget.__init__(self, **kwargs)
 
         # Set LayerShell properties
-        Gtk4LayerShell.init_for_window(self)
-        self.b_set_layer(self.layer)
-        self.b_set_anchor(self.anchor)
-        self.b_set_auto_exclusive_zone(self.auto_exclusive_zone)
-        self.set_child(self.child)
+        if self.layer_shell:
+            Gtk4LayerShell.init_for_window(self)
+            self.b_set_layer(self.layer)
+            self.b_set_anchor(self.anchor)
+            self.b_set_auto_exclusive_zone(self.auto_exclusive_zone)
+
+        self.b_set_child(self.child)
 
         # Present our window
         self.present()
-
-    # Setters related to fields in Window that
-    # need setting.
 
     def b_set_layer(self, layer: LayerShellLayer):
         """
@@ -90,3 +95,13 @@ class Window(Gtk.Window, Widget):
             Gtk4LayerShell.auto_exclusive_zone_enable(self)
         else:
             Gtk4LayerShell.set_exclusive_zone(self, auto_exclusive_zone)
+
+    def b_set_child(self, child: Optional[Widget]):
+        """
+        Set's the child of this window to a new child
+
+        Args:
+            child (Optional[Widget]): The new child of this window
+        """
+        self.child = child._reinitialise_widget()
+        self.set_child(self.child)

@@ -15,3 +15,12 @@ class IntervalCallback:
     """
 
     pass
+
+
+class OneshotCallback:
+    """
+    This will be executed once at the provided
+    interval
+    """
+
+    pass

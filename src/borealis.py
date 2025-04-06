@@ -1,18 +1,20 @@
 from typing import Optional
 from borealis_logging import BorealisFormatter
+from ext.hyprland import HyprlandService
 import gi
+from service.base_service import BaseService
+from service.service_annotate import ServiceAnnotation
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Gtk4LayerShell", "1.0")
 from gi.repository import Gtk, Gdk
 from widget.window import Window
 
+import threading
 import logging
 
 # Setup library level logging for the end-user
 logger = logging.getLogger()
-
-logger.setLevel(logging.DEBUG)
 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.DEBUG)
@@ -50,6 +52,11 @@ class Borealis:
     instance.
     """
 
+    services: list[BaseService] = []
+    """
+    A list of services to be enabled in this borealis instance
+    """
+
     _app: Gtk.Application
     """
     The internal Gtk Application this Borealis application is using for Gtk4
@@ -60,10 +67,21 @@ class Borealis:
     Underlying provider for css to the GTK4 side of Borealis
     """
 
+    _service_map = dict[ServiceAnnotation, BaseService]
+    """
+    Map of service annotations to their corresponding service
+    """
+
+    _service_prefixes_map = dict[str, BaseService]
+    """
+    Map of service prefixes to their corresponding service
+    """
+
     def __init__(self):
         """
         Create a new instance of Borealis.
         """
+        self._service_map = {}
 
         # Create underlying Gtk Application with the passed in application id.
         try:
@@ -86,10 +104,33 @@ class Borealis:
                 self._css_provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
             )
+
         else:
             logger.info(
                 f"No css_file field in {self.__class__.__name__}, No css will be used."
             )
+
+    def _start_services(self):
+        """
+        Start's all of the services associated with this borealis instance.
+        """
+
+        # Register annotations for widgets
+        for service in self.services:
+            annotation = service.get_annotation()
+
+            if annotation is None:
+                logger.warning(
+                    f"Service {service.__class__.__name__} Has no annotation! Widget's wont be able to use this service"
+                )
+
+            else:
+                self._service_map[annotation] = service
+                self._service_prefixes_map[annotation.get_prefix()] = service
+
+        # Start each service
+        for service in self.services:
+            threading.Thread(target=service.start_service).start()
 
     def _activate(self):
         """
@@ -99,7 +140,12 @@ class Borealis:
         """
 
         def activate_handler(_):
+
+            # Right before setting up root start our services
+            self._start_services()
+
             try:
+                self.root.b_root = self
                 self.root(self._app)
             except AttributeError as e:
                 logger.critical(
